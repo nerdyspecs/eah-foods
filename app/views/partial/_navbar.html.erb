@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<div class="container">
+		<a class="navbar-brand" href="#">EAH-FOOD</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          	<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse row" id="navbarNavAltMarkup">
+			<div class="col-sm-6">
+				<ul class="navbar-nav mr-auto">
+					<%= link_to "Home", root_path, class:'nav-item nav-link' %>
+					<%= link_to "Menu", main_app_menu_path, class:'nav-item nav-link' %>
+					<%= link_to "Gallery", main_app_gallery_path, class:'nav-item nav-link' %>
+					<%= link_to "Contact", main_app_contact_path, class:'nav-item nav-link' %>
+				</ul>
+			</div>
+			<div class="col-sm-6 flex-grow-1">
+				<ul class="navbar-nav ml-auto" style="display:flex">
+					<li style="color:rgba(255, 255, 255, 0.5)">some language</li>
+					<li style="color:rgba(255, 255, 255, 0.5)">some cart</li>
+				</ul>
+			</div>
+			
+		</div>
+	</div>
+</nav
+
