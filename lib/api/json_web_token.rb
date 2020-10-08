@@ -1,5 +1,6 @@
 class JsonWebToken
   def self.encode(payload)
+  	puts "*_________* My test " + Rails.application.secrets.secret_key_base
     JWT.encode(payload, Rails.application.secrets.secret_key_base)
   end
 

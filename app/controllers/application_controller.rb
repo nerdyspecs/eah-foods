@@ -5,7 +5,9 @@ class ApplicationController < ActionController::Base
 	protected
 	def authenticate_request!
 	  unless user_id_in_token?
-	    render json: { errors: ['User id not found in token'] }, status: :unauthorized
+	    render json: { 
+	    	errors: ['User id not found in token'] ,
+	    }, status: :unauthorized
 	    return
 	  end
 	  @current_user = User.find(auth_token[:user_id])
@@ -25,6 +27,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def user_id_in_token?
+	  puts auth_token[:user_id].to_i
 	  http_token && auth_token && auth_token[:user_id].to_i
 	end
 end
