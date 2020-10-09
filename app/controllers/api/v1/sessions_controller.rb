@@ -25,7 +25,6 @@ class Api::V1::SessionsController < Devise::SessionsController
     return nil unless user and user.id
     {
       auth_token: JsonWebToken.encode({user_id: user.id,user_email: user.email}),
-      user: {id: user.id, email: user.email}
     }
   end
 
