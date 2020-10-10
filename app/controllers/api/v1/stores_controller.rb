@@ -1,7 +1,7 @@
 class Api::V1::StoresController < ApplicationController
 	# authenticate jwt. If JWT is valid, @current_user is the current logged user. Logic is in applciation_controller
 	before_action :authenticate_request!
-	before_action :validate_request_role, only:[:create, :update, :delete]
+	before_action :validate_request_role, only:[:create, :update, :destroy]
 	before_action :get_store, only:[:update, :destroy, :show]
 
 	# methods
@@ -14,12 +14,12 @@ class Api::V1::StoresController < ApplicationController
 
 	# CRUD (Create, Read, Update, Design)
 	def create
-		store = Store.new store_params
-		store.user = current_user
+		@store = Store.new store_params
+		@store.user = current_user
 		if store.save
 			render json:{
 				success:"Store created",
-				store: store
+				store: @store
 			}, status: :created
 		else
 			render json:{
@@ -30,10 +30,10 @@ class Api::V1::StoresController < ApplicationController
 	end
 
 	def show
-		if !store.blank?
+		if !@store.blank?
 			render json:{
 				success:"Showing individual store",
-				store: store
+				store: @store
 			},status: :ok
 		else
 			render json:{
@@ -43,10 +43,10 @@ class Api::V1::StoresController < ApplicationController
 	end
 
 	def update
-		if store.update store_params
+		if @store.update store_params
 			render json:{
 				success:"Store Updated",
-				store: store
+				store: @store
 			}, status: :ok
 		else
 			render json:{
@@ -56,10 +56,10 @@ class Api::V1::StoresController < ApplicationController
 	end
 
 	def destroy
-		if store.delete
+		if @store.delete
 			render json:{
-				success:"Store Deleted",
-				store: store
+				success:"Store deleted",
+				store: @store
 			}, status: :ok
 		else
 			render json:{
@@ -74,7 +74,7 @@ class Api::V1::StoresController < ApplicationController
 	end
 
 	# Check to see if the user-logged is the same user as the user in the token
-	def validate_request_role?
+	def validate_request_role
 		if @current_user.id != params[:user_id].to_i
 			render json:{
 				error: "User id sent from params does not match token"
@@ -83,8 +83,8 @@ class Api::V1::StoresController < ApplicationController
 	end	
 
 	def get_store
-		store = Store.find_by_id(params[:id])
-		if store.nil?
+		@store = Store.find_by_id(params[:id])
+		if @store.nil?
 			render json:{message:"Store not found"},status: :bad_request
 		end
 	end

@@ -15,13 +15,13 @@ class Api::V1::ItemsController < ApplicationController
 
 	# CRUD (Create, Read, Update, Design)
 	def create
-		item = Item.new item_params
+		@item = Item.new item_params
 		byebug
-		item.store = Store.find params[:store_id]
-		if item.save
+		@item.store = Store.find params[:store_id]
+		if @item.save
 			render json:{
 				success:"Item created",
-				item: item
+				item: @item
 			}, status: :created
 		else
 			render json:{
@@ -32,10 +32,10 @@ class Api::V1::ItemsController < ApplicationController
 	end
 
 	def show
-		if !item.blank?
+		if !@item.blank?
 			render json:{
 				success:"Showing individual item",
-				item: item
+				item: @item
 			},status: :ok
 		else
 			render json:{
@@ -45,10 +45,10 @@ class Api::V1::ItemsController < ApplicationController
 	end
 
 	def update
-		if item.update item_params
+		if @item.update item_params
 			render json:{
 				success:"Item updated",
-				store: item
+				store: @item
 			}, status: :ok
 		else
 			render json:{
@@ -58,10 +58,10 @@ class Api::V1::ItemsController < ApplicationController
 	end
 
 	def destroy
-		if item.delete
+		if @item.delete
 			render json:{
 				success:"Item Deleted",
-				store: item
+				store: @item
 			}, status: :ok
 		else
 			render json:{
@@ -86,7 +86,7 @@ class Api::V1::ItemsController < ApplicationController
 
 	# Get item for show, update, destroy
 	def get_item
-		item = Item.find_by_id(params[:id])
+		@item = Item.find_by_id(params[:id])
 		if item.nil?
 			render json:{message:"Item not found"},status: :bad_request
 		end
