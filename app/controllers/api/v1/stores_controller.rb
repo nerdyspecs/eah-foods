@@ -16,7 +16,7 @@ class Api::V1::StoresController < ApplicationController
 	def create
 		@store = Store.new store_params
 		@store.user = current_user
-		if store.save
+		if @store.save
 			render json:{
 				success:"Store created",
 				store: @store
