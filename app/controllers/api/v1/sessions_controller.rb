@@ -6,7 +6,6 @@ class Api::V1::SessionsController < Devise::SessionsController
   def create
     if @user.valid_password?(sign_in_params[:password])
       sign_in "user", @user
-      byebug
       render json: payload(@user), status: :ok
     else
       render json: {
@@ -26,7 +25,6 @@ class Api::V1::SessionsController < Devise::SessionsController
     return nil unless user and user.id
     {
       auth_token: JsonWebToken.encode({user_id: user.id,user_email: user.email}),
-      user: {id: user.id, email: user.email}
     }
   end
 

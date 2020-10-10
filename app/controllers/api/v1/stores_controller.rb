@@ -1,27 +1,25 @@
-class Api::V1::ItemsController < ApplicationController
+class Api::V1::StoresController < ApplicationController
 	# authenticate jwt. If JWT is valid, @current_user is the current logged user. Logic is in applciation_controller
 	before_action :authenticate_request!
 	before_action :validate_request_role, only:[:create, :update, :destroy]
-	before_action :get_item, only:[:update, :destroy, :show]
+	before_action :get_store, only:[:update, :destroy, :show]
 
-	# List all items
+	# methods
 	def index
-		@items = Item.all
-		render json: {
-			messages: "This is from index",
-			items: @items
-      }, status: :ok
+		stores = Store.all
+		render json:{
+			data: stores
+		}
 	end
 
 	# CRUD (Create, Read, Update, Design)
 	def create
-		@item = Item.new item_params
-		byebug
-		@item.store = Store.find params[:store_id]
-		if @item.save
+		@store = Store.new store_params
+		@store.user = current_user
+		if @store.save
 			render json:{
-				success:"Item created",
-				item: @item
+				success:"Store created",
+				store: @store
 			}, status: :created
 		else
 			render json:{
@@ -32,51 +30,51 @@ class Api::V1::ItemsController < ApplicationController
 	end
 
 	def show
-		if !@item.blank?
+		if !@store.blank?
 			render json:{
-				success:"Showing individual item",
-				item: @item
+				success:"Showing individual store",
+				store: @store
 			},status: :ok
 		else
 			render json:{
-				error:"Failed to show."
+				error:"Store is blank."
 			},status: :unauthorized
 		end
 	end
 
 	def update
-		if @item.update item_params
+		if @store.update store_params
 			render json:{
-				success:"Item updated",
-				store: @item
+				success:"Store Updated",
+				store: @store
 			}, status: :ok
 		else
 			render json:{
-				error:"Failed to update item"
+				error:"Failed to update store"
 			}, status: :bad_request
 		end
 	end
 
 	def destroy
-		if @item.delete
+		if @store.delete
 			render json:{
-				success:"Item Deleted",
-				store: @item
+				success:"Store deleted",
+				store: @store
 			}, status: :ok
 		else
 			render json:{
-				error:"Failed to delete item"
+				error:"Failed to delete store"
 			}, status: :bad_request
 		end
 	end
 
 	private
-	def item_params
-		params.require(:item).permit(:title,:description,:price)
+	def store_params
+		params.require(:store).permit(:organisation_name,:unit,:street_address,:postal_code,:city,:state,:country,:halal)
 	end
 
 	# Check to see if the user-logged is the same user as the user in the token
-	def validate_request_role?
+	def validate_request_role
 		if @current_user.id != params[:user_id].to_i
 			render json:{
 				error: "User id sent from params does not match token"
@@ -84,11 +82,10 @@ class Api::V1::ItemsController < ApplicationController
 		end
 	end	
 
-	# Get item for show, update, destroy
-	def get_item
-		@item = Item.find_by_id(params[:id])
-		if item.nil?
-			render json:{message:"Item not found"},status: :bad_request
+	def get_store
+		@store = Store.find_by_id(params[:id])
+		if @store.nil?
+			render json:{message:"Store not found"},status: :bad_request
 		end
 	end
 end
