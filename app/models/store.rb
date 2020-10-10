@@ -1,8 +1,9 @@
 class Store < ApplicationRecord
 	# Db Associations
-  belongs_to :user
-  has_many :items
+	belongs_to :user
+	has_many :items
 
+	
 	# Methods
 	def address
 	  address = ""
