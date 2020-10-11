@@ -25,8 +25,7 @@ class Api::V1::StoresController < ApplicationController
 			render json:{
 				error:"Failed to create"
 			}, status: :bad_request
-		end
-		
+		end	
 	end
 
 	def show

@@ -28,7 +28,6 @@ class Api::V1::ItemsController < ApplicationController
 				error:"Failed to create"
 			}, status: :bad_request
 		end
-		
 	end
 
 	def show
