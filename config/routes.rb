@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  	root :to => 'main_app#homepage'
+  	root :to => 'items#home'
 	get 'main_app/menu'
 	get 'main_app/gallery'
 	get 'main_app/contact'
@@ -19,5 +19,8 @@ Rails.application.routes.draw do
 			end
 		end
 	end
+
+	resources :items
+	resources :item_images, only:[:destroy]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

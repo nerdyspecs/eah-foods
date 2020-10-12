@@ -1,0 +1,11 @@
+<div class="container" style="height:80vh">
+
+	<%= form_with model: @item , url: item_path(@item.id), action: :patch do |f| %>
+	  <%= f.label :image%>
+	  <%= f.file_field :image %>
+	  <%= f.submit("upload") %>
+	<% end %>
+
+
+
+</div>

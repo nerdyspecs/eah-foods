@@ -69,13 +69,19 @@ class Api::V1::ItemsController < ApplicationController
 		end
 	end
 
+
+	# tests
+	def home
+		@item = Item.first
+	end	
+
 	private
 	def item_params
-		params.require(:item).permit(:title,:description,:price)
+		params.require(:item).permit(:title,:description,:price,:image)
 	end
 
 	# Check to see if the user-logged is the same user as the user in the token
-	def validate_request_role?
+	def validate_request_role
 		if @current_user.id != params[:user_id].to_i
 			render json:{
 				error: "User id sent from params does not match token"
@@ -86,7 +92,7 @@ class Api::V1::ItemsController < ApplicationController
 	# Get item for show, update, destroy
 	def get_item
 		@item = Item.find_by_id(params[:id])
-		if item.nil?
+		if @item.nil?
 			render json:{message:"Item not found"},status: :bad_request
 		end
 	end

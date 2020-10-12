@@ -1,0 +1,8 @@
+<h1>helloworld</h1>
+<h2><%=link_to @item.title,  new_item_path %></h2>
+
+<%@item.item_images.each do |image| %>
+<%= link_to "Delete "+ image.image.filename.to_s, item_image_path(image.id), :method=>"delete"%>
+<%= image_tag(image.image)%>
+
+<%end%>
