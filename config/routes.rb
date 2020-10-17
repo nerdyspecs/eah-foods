@@ -4,10 +4,10 @@ Rails.application.routes.draw do
 	get 'main_app/gallery'
 	get 'main_app/contact'
 
+	devise_for :user
 
 	namespace :api, defaults: {format: :json} do 
 		namespace :v1 do
-			devise_for :user
 			devise_scope :user do
 				post "sign_up", to: "registrations#create"
 				post "sign_in", to: "sessions#create"
