@@ -15,5 +15,14 @@ module EahFoods
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+      	origins Rails.application.credentials.dig(:cors_origin).split(',').map { |origin| origin.strip }
+        resource '*', :headers => :any, 
+        :methods => [:get, :patch, :put, :delete, :post, :options]
+      end
+    end
+
   end
 end
